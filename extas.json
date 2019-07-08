@@ -1,0 +1,79 @@
+{
+  "name": "extas.players",
+  "package_classes": [
+    {
+      "interface": "extas\\interfaces\\players\\IPlayerRepository",
+      "class": "extas\\components\\players\\PlayerRepository"
+    }
+  ],
+  "players": [
+    {
+      "name" : "public",
+      "description": "public access",
+      "aliases": ["public"],
+      "identities": [
+        {"id": "public", "secret": "group", "source": "api" }
+      ],
+      "settings": [
+        {"name": "token", "id": "@directive.generate()"}
+      ]
+    },
+    {
+      "name": "authorized",
+      "description": "Авторизованные пользователи",
+      "aliases": ["public", "authorized"],
+      "identities": [
+        {"id": "authorized", "secret": "group", "source": "api"}
+      ],
+      "settings": [
+        {"name": "token", "id": "@directive.generate()" }
+      ]
+    },
+    {
+      "name" : "admin",
+      "description" : "Администратор",
+      "aliases" : ["authorized", "admin"],
+      "identities" : [
+        {"id" : "admin", "secret" : "group", "source" : "service-install"}
+      ],
+      "settings" : [
+        {"name" : "token", "id" : "@directive.generate()"}
+      ]
+    },
+    {
+      "name" : "extas@jeyroik.gmail",
+      "description" : "extas base player with admin access",
+      "aliases" : ["authorized", "admin", "extas@jeyroik.gmail"],
+      "identities" : [
+        {"id" : "extas@jeyroik.gmail", "secret" : "@directive.generate()", "source" : "service-install"}
+      ],
+      "settings" : [
+        {"name" : "token",  "id" : "@directive.generate()"}
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "name": "extas.player.init",
+      "description": "Player initialized",
+      "input": {
+        "player": {
+          "type": "extas\\interfaces\\players\\IPlayer",
+          "description": "Current player instance"
+        }
+      },
+      "output": {
+        "void": {
+          "type": "void",
+          "description": "Nothing return is required"
+        }
+      }
+    }
+  ],
+  "plugins": [
+    {
+      "class": "extas\\components\\plugins\\PluginInstallPlayers",
+      "stage": "extas.install"
+    }
+  ]
+}
