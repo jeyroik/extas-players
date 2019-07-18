@@ -75,5 +75,28 @@
       "class": "extas\\components\\plugins\\PluginInstallPlayers",
       "stage": "extas.install"
     }
+  ],
+  "translates": [
+    {
+      "lang_source": "en",
+      "lang_translated": "ru",
+      "source": "Unknown user",
+      "translated": "Пользователь не найден",
+      "type": "danger"
+    },
+    {
+      "lang_source": "en",
+      "lang_translated": "ru",
+      "source": "User updated",
+      "translated": "Пользователь обновлён",
+      "type": "success"
+    },
+    {
+      "lang_source": "en",
+      "lang_translated": "ru",
+      "source": "Empty aliases restricted",
+      "translated": "Запрещено отсутствие алиасов для пользователя",
+      "type": "danger"
+    }
   ]
 }
