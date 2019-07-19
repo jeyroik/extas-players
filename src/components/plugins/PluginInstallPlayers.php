@@ -1,5 +1,5 @@
 <?php
-namespace extas\components\plugins\players;
+namespace extas\components\plugins;
 
 use extas\components\players\Player;
 use extas\components\players\PlayerIdentity;
@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class PluginInstallPlayers
  *
- * @package extas\components\plugins\players
+ * @package extas\components\plugins
  * @author jeyroik@gmail.com
  */
 class PluginInstallPlayers extends Plugin
