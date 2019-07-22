@@ -4,7 +4,8 @@
   "require": {
     "jeyroik/extas-foundation":"*",
     "jeyroik/extas-installer":"*",
-    "jeyroik/extas-base":"*"
+    "jeyroik/extas-base":"*",
+    "jr/randoms": "*"
   },
   "autoload": {
     "psr-4": {
