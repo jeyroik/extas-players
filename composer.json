@@ -5,7 +5,7 @@
     "jeyroik/extas-foundation":"*",
     "jeyroik/extas-installer":"*",
     "jeyroik/extas-base":"*",
-    "jr/randoms": "*"
+    "jeyroik/randoms": "*"
   },
   "autoload": {
     "psr-4": {
