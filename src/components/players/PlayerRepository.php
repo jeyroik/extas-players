@@ -12,10 +12,9 @@ use extas\interfaces\players\IPlayerRepository;
  */
 class PlayerRepository extends Repository implements IPlayerRepository
 {
-
-    protected $itemClass = Player::class;
-    protected $pk = Player::FIELD__NAME;
-    protected $name = 'players';
-    protected $scope = 'extas';
-    protected $idAs = '';
+    protected string $itemClass = Player::class;
+    protected string $pk = Player::FIELD__NAME;
+    protected string $name = 'players';
+    protected string $scope = 'extas';
+    protected string $idAs = '';
 }

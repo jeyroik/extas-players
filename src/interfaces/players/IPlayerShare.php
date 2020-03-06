@@ -11,9 +11,9 @@ use extas\interfaces\IItem;
  */
 interface IPlayerShare extends IItem
 {
-    const SUBJECT = 'extas.player.share';
+    public const SUBJECT = 'extas.player.share';
 
-    const FIELD__PLAYER = 'player';
+    public const FIELD__PLAYER = 'player';
 
     /**
      * @param callable $itemWorker

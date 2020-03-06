@@ -11,8 +11,8 @@ use extas\interfaces\IItem;
  */
 interface IPlayerToken extends IItem
 {
-    const SUBJECT = 'extas.player.token';
-    const FIELD__SUBJECT = 'subject';
+    public const SUBJECT = 'extas.player.token';
+    public const FIELD__SUBJECT = 'subject';
 
     /**
      * @return mixed

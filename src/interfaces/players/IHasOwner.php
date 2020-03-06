@@ -9,7 +9,7 @@ namespace extas\interfaces\players;
  */
 interface IHasOwner
 {
-    const FIELD__OWNER = 'owner';
+    public const FIELD__OWNER = 'owner';
 
     /**
      * @return string

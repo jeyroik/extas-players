@@ -24,8 +24,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class PluginInstallPlayers extends Plugin
 {
-    const FIELD__PLAYERS = 'players';
-    const DIRECTIVE__GENERATE = '@directive.generate()';
+    public const FIELD__PLAYERS = 'players';
+    public const DIRECTIVE__GENERATE = '@directive.generate()';
 
     /**
      * @param $serviceInstaller IInstaller

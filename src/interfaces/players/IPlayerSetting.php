@@ -13,5 +13,5 @@ use extas\interfaces\IItem;
  */
 interface IPlayerSetting extends IItem, IHasName, IHasId
 {
-    const SUBJECT = 'extas.player.setting';
+    public const SUBJECT = 'extas.player.setting';
 }

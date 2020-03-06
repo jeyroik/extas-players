@@ -12,10 +12,10 @@ use extas\interfaces\IItem;
  */
 interface IPlayerIdentity extends IItem, IHasId
 {
-    const SUBJECT = 'extas.player.identity';
+    public const SUBJECT = 'extas.player.identity';
 
-    const FIELD__SECRET = 'secret';
-    const FIELD__SOURCE = 'source';
+    public const FIELD__SECRET = 'secret';
+    public const FIELD__SOURCE = 'source';
 
     /**
      * @return mixed

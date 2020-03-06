@@ -18,7 +18,7 @@ use extas\interfaces\players\IPlayerRepository;
  */
 trait THasOwner
 {
-    static protected $owners = [];
+    static protected array $owners = [];
 
     /**
      * @return string

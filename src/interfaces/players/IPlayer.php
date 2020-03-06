@@ -13,11 +13,11 @@ use extas\interfaces\IItem;
  */
 interface IPlayer extends IItem, IHasName, IHasDescription
 {
-    const SUBJECT = 'extas.player';
+    public const SUBJECT = 'extas.player';
 
-    const FIELD__IDENTITIES = 'identities';
-    const FIELD__SETTINGS = 'settings';
-    const FIELD__ALIASES = 'aliases';
+    public const FIELD__IDENTITIES = 'identities';
+    public const FIELD__SETTINGS = 'settings';
+    public const FIELD__ALIASES = 'aliases';
 
     /**
      * @return array
