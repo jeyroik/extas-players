@@ -2,10 +2,10 @@
   "name": "jeyroik/extas-players",
   "description": "Extas players package",
   "require": {
-    "jeyroik/extas-foundation":"1.*",
-    "jeyroik/extas-installer":"1.*",
-    "jeyroik/extas-base":"*",
-    "jeyroik/randoms": "*"
+    "jeyroik/extas-foundation":"2.*",
+    "jeyroik/extas-installer":"2.*",
+    "jeyroik/extas-base":"1.*",
+    "jeyroik/randoms": "0.*"
   },
   "autoload": {
     "psr-4": {
