@@ -1,5 +1,5 @@
 {
-  "name": "extas.players",
+  "name": "extas/players",
   "package_classes": [
     {
       "interface": "extas\\interfaces\\players\\IPlayerRepository",
