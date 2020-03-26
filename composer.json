@@ -2,8 +2,7 @@
   "name": "jeyroik/extas-players",
   "description": "Extas players package",
   "require": {
-    "jeyroik/extas-installer":"2.*",
-    "jeyroik/extas-base":"1.*",
+    "jeyroik/extas-installer": "2.*",
     "jeyroik/randoms": "0.*"
   },
   "autoload": {
