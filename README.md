@@ -1,47 +1,33 @@
-# players
+![tests](https://github.com/jeyroik/extas-players/workflows/PHP%20Composer/badge.svg?branch=master&event=push)
+![codecov.io](https://codecov.io/gh/jeyroik/extas-players/coverage.svg?branch=master)
+<a href="https://github.com/phpstan/phpstan"><img src="https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat" alt="PHPStan Enabled"></a>
 
-Пакет содержит функционал пользователей.
+# Описание
+
+Модель пользователя.
 
 # Установка
 
-`composer require jeyroik/extas-players:*`
+`composer require jeyroik/extas-players:2.*`
 
 # Использование
+
+## Термины
+
+- `identity` - используется для хранения данных для идентификации пользователя.
+- `setting` - используется для хранения настроек для пользователя.
+- `alias` - используется для добавления пользователя в группу (для этого просто добавляется алиас группы).
 
 ## Создание пользователя
 
 ```php
-use extas\components\players\PlayerIdentity;
 use extas\components\players\Player;
 
 /**
  * @var $playerRepo extas\interfaces\players\IPlayerRepository
  */
-
-$identity = new PlayerIdentity([
-    PlayerIdentity::FIELD__ID => 'jeyroik',
-    PlayerIdentity::FIELD__SECRET => sha1('jeyroik')
-]);
-
 $player = new Player([
     Player::FIELD__NAME => 'jeyroik'
 ]);
-$player->addIdentity($identity);
 $playerRepo->create($player);
-```
-
-## Сравнение пароля
-
-```php
-/**
- * @var $playerRepo extas\interfaces\players\IPlayerRepository
- * @var $player extas\components\players\Player
- */
- 
-$player = $playerRepo->one([IPlayer::FIELD__NAME => 'jeyroik']);
-if ($player) {
-    if ($player->getIdentity('jeyroik')->getSecret() == sha1('jeyroik')) {
-        echo 'Пароль верный';
-    }
-}
 ```

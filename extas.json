@@ -12,10 +12,10 @@
       "description": "public access",
       "aliases": ["public"],
       "identities": [
-        {"id": "public", "secret": "group", "source": "api" }
+        {"name": "public", "value": "group"}
       ],
       "settings": [
-        {"name": "token", "id": "@directive.generate()"}
+        {"name": "token", "value": "@uuid6"}
       ]
     },
     {
@@ -26,7 +26,7 @@
         {"id": "authorized", "secret": "group", "source": "api"}
       ],
       "settings": [
-        {"name": "token", "id": "@directive.generate()" }
+        {"name": "token", "value": "@uuid6" }
       ]
     },
     {
@@ -37,7 +37,7 @@
         {"id" : "admin", "secret" : "group", "source" : "service-install"}
       ],
       "settings" : [
-        {"name" : "token", "id" : "@directive.generate()"}
+        {"name" : "token", "value" : "@uuid6"}
       ]
     },
     {
@@ -48,7 +48,7 @@
         {"id" : "extas@jeyroik.gmail", "secret" : "@directive.generate()", "source" : "service-install"}
       ],
       "settings" : [
-        {"name" : "token",  "id" : "@directive.generate()"}
+        {"name" : "token",  "value" : "@uuid6"}
       ]
     }
   ],

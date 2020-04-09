@@ -16,5 +16,4 @@ class PlayerRepository extends Repository implements IPlayerRepository
     protected string $pk = Player::FIELD__NAME;
     protected string $name = 'players';
     protected string $scope = 'extas';
-    protected string $idAs = '';
 }
