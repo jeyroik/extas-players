@@ -106,14 +106,14 @@ class PlayerTest extends TestCase
         $this->assertFalse($player->hasSetting('test'));
 
         $player->setSetting(new SampleParameter([
-            SampleParameter::FIELD__NAME => 'test2',
-            SampleParameter::FIELD__VALUE => 'test'
+            SampleParameter::FIELD__NAME => 'test2'
         ]));
         $this->assertCount(1, $player->getSettings());
+        $this->assertEquals('default', $player->getSetting('test2')->getValue('default'));
         $player->updateSettingValue('test2', 'test2');
 
         $this->assertEquals('test2', $player->getSettingValue('test2'));
-        $this->assertEquals('default', $player->getSetting('unknown')->getValue('default'));
+        $this->assertEquals('default', $player->getSetting('unknown'));
         $player->removeSetting('test2');
 
         $player->setSettings([
