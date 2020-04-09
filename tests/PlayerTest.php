@@ -71,7 +71,7 @@ class PlayerTest extends TestCase
             SampleParameter::FIELD__NAME => 'test2'
         ]));
         $this->assertCount(1, $player->getIdentities());
-        $this->assertEquals('default', $player->getIdentity('test2')->getValue('default'));
+        $this->assertEquals('default', $player->getIdentityValue('test2', 'default'));
         $player->updateIdentityValue('test2', 'test2');
 
         $this->assertEquals('test2', $player->getIdentityValue('test2'));
@@ -109,7 +109,7 @@ class PlayerTest extends TestCase
             SampleParameter::FIELD__NAME => 'test2'
         ]));
         $this->assertCount(1, $player->getSettings());
-        $this->assertEquals('default', $player->getSetting('test2')->getValue('default'));
+        $this->assertEquals('default', $player->getSettingValue('test2', 'default'));
         $player->updateSettingValue('test2', 'test2');
 
         $this->assertEquals('test2', $player->getSettingValue('test2'));
