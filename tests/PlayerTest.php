@@ -42,10 +42,10 @@ class PlayerTest extends TestCase
     {
         $player = new Player();
         $player->setAliases(['test']);
-        $this->asserTrue($player->hasAlias('test'));
+        $this->assertTrue($player->hasAlias('test'));
 
         $player->removeAlias('test');
-        $this->asserFalse($player->hasAlias('test'));
+        $this->assertFalse($player->hasAlias('test'));
 
         $player->addAlias('test2');
         $this->assertEquals(['test2'], $player->getAliases());
