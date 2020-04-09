@@ -75,6 +75,7 @@ class PlayerTest extends TestCase
         $player->updateIdentityValue('test2', 'test2');
 
         $this->assertEquals('test2', $player->getIdentityValue('test2'));
+        $this->assertEquals('default', $player->getIdentityValue('unknown', 'default'));
         $player->removeIdentity('test2');
 
         $player->setIdentities([
@@ -113,7 +114,7 @@ class PlayerTest extends TestCase
         $player->updateSettingValue('test2', 'test2');
 
         $this->assertEquals('test2', $player->getSettingValue('test2'));
-        $this->assertEquals('default', $player->getSetting('unknown'));
+        $this->assertEquals('default', $player->getSettingValue('unknown', 'default'));
         $player->removeSetting('test2');
 
         $player->setSettings([
