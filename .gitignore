@@ -28,8 +28,3 @@ phpunit.phar
 
 tests/_output/*
 tests/_support/_generated
-
-.env
-resources/configs/api.php
-resources/configs/middleware.php
-resources/configs/container.php
