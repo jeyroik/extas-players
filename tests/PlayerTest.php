@@ -67,14 +67,13 @@ class PlayerTest extends TestCase
         $this->assertFalse($player->hasIdentity('test'));
 
         $player->setIdentity(new SampleParameter([
-            SampleParameter::FIELD__NAME => 'test2',
-            SampleParameter::FIELD__VALUE => 'test'
+            SampleParameter::FIELD__NAME => 'test2'
         ]));
         $this->assertCount(1, $player->getIdentities());
+        $this->assertEquals('default', $player->getIdentity('test2')->getValue('default'));
         $player->updateIdentityValue('test2', 'test2');
 
         $this->assertEquals('test2', $player->getIdentityValue('test2'));
-        $this->assertEquals('default', $player->getIdentity('unknown')->getValue('default'));
         $player->removeIdentity('test2');
 
         $player->setIdentities([
