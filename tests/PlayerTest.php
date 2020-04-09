@@ -9,6 +9,7 @@ use extas\components\SystemContainer;
 use extas\interfaces\players\IPlayerRepository;
 use extas\components\players\PlayerRepository;
 use extas\interfaces\repositories\IRepository;
+use extas\components\Item;
 
 /**
  * Class PlayerTest
@@ -109,7 +110,7 @@ class PlayerTest extends TestCase
             SampleParameter::FIELD__VALUE => 'test'
         ]));
         $this->assertCount(1, $player->getSettings());
-        $player->updateIdentityValue('test2', 'test2');
+        $player->updateSettingValue('test2', 'test2');
 
         $this->assertEquals('test2', $player->getSettingValue('test2'));
         $this->assertEquals('default', $player->getSetting('unknown')->getValue('default'));
@@ -130,10 +131,15 @@ class PlayerTest extends TestCase
 
     public function testHasPlayer()
     {
-        $hasPlayer = new class([
+        $hasPlayer = new class ([
             IHasPlayer::FIELD__PLAYER_NAME => 'test'
-        ]) {
+        ]) extends Item {
             use THasPlayer;
+
+            protected function getSubjectForExtension(): string
+            {
+                return '';
+            }
         };
         $this->playerRepo->create(new Player([
             Player::FIELD__NAME => 'test',
