@@ -10,7 +10,7 @@
     {
       "name" : "public",
       "description": "public access",
-      "aliases": ["public"],
+      "aliases": [],
       "identities": [
         {"name": "public", "value": "group"}
       ],
@@ -21,9 +21,9 @@
     {
       "name": "authorized",
       "description": "Авторизованные пользователи",
-      "aliases": ["public", "authorized"],
+      "aliases": ["public"],
       "identities": [
-        {"id": "authorized", "secret": "group", "source": "api"}
+        {"name": "authorized", "value": "group"}
       ],
       "settings": [
         {"name": "token", "value": "@uuid6" }
@@ -32,9 +32,9 @@
     {
       "name" : "admin",
       "description" : "Администратор",
-      "aliases" : ["authorized", "admin"],
+      "aliases" : ["authorized"],
       "identities" : [
-        {"id" : "admin", "secret" : "group", "source" : "service-install"}
+        {"name" : "admin", "value" : "group"}
       ],
       "settings" : [
         {"name" : "token", "value" : "@uuid6"}
@@ -43,60 +43,19 @@
     {
       "name" : "extas@jeyroik.gmail",
       "description" : "extas base player with admin access",
-      "aliases" : ["authorized", "admin", "extas@jeyroik.gmail"],
+      "aliases" : ["authorized", "admin"],
       "identities" : [
-        {"id" : "extas@jeyroik.gmail", "secret" : "@directive.generate()", "source" : "service-install"}
+        {"name" : "extas@jeyroik.gmail", "value" : "@sha1(admin)"}
       ],
       "settings" : [
         {"name" : "token",  "value" : "@uuid6"}
       ]
     }
   ],
-  "stages": [
-    {
-      "name": "extas.player.init",
-      "description": "Player initialized",
-      "input": {
-        "player": {
-          "type": "extas\\interfaces\\players\\IPlayer",
-          "description": "Current player instance"
-        }
-      },
-      "output": {
-        "void": {
-          "type": "void",
-          "description": "Nothing return is required"
-        }
-      }
-    }
-  ],
   "plugins": [
     {
       "class": "extas\\components\\plugins\\PluginInstallPlayers",
       "stage": "extas.install"
-    }
-  ],
-  "translates": [
-    {
-      "lang_source": "en",
-      "lang_translated": "ru",
-      "source": "Unknown user",
-      "translated": "Пользователь не найден",
-      "type": "danger"
-    },
-    {
-      "lang_source": "en",
-      "lang_translated": "ru",
-      "source": "User updated",
-      "translated": "Пользователь обновлён",
-      "type": "success"
-    },
-    {
-      "lang_source": "en",
-      "lang_translated": "ru",
-      "source": "Empty aliases restricted",
-      "translated": "Запрещено отсутствие алиасов для пользователя",
-      "type": "danger"
     }
   ]
 }
