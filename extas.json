@@ -23,7 +23,7 @@
       "description": "Авторизованные пользователи",
       "aliases": ["public", "authorized"],
       "identities": [
-        {"id": "authorized", "secret": "group", "source": "api"}
+        {"name": "authorized", "value": "group"}
       ],
       "settings": [
         {"name": "token", "value": "@uuid6" }
@@ -34,7 +34,7 @@
       "description" : "Администратор",
       "aliases" : ["authorized", "admin"],
       "identities" : [
-        {"id" : "admin", "secret" : "group", "source" : "service-install"}
+        {"name" : "admin", "value" : "group"}
       ],
       "settings" : [
         {"name" : "token", "value" : "@uuid6"}
@@ -45,7 +45,7 @@
       "description" : "extas base player with admin access",
       "aliases" : ["authorized", "admin", "extas@jeyroik.gmail"],
       "identities" : [
-        {"id" : "extas@jeyroik.gmail", "secret" : "@directive.generate()", "source" : "service-install"}
+        {"name" : "extas@jeyroik.gmail", "value" : "@sha1(admin)"}
       ],
       "settings" : [
         {"name" : "token",  "value" : "@uuid6"}
