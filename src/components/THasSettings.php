@@ -9,14 +9,13 @@ use extas\interfaces\samples\parameters\ISampleParameter;
  * Trait THasSettings
  *
  * @property $config
+ * @method convertToItems(array $data, string $itemClass): array
  *
  * @package extas\components
  * @author jeyroik@gmail.com
  */
 trait THasSettings
 {
-    use THasItemsData;
-
     /**
      * @return ISampleParameter[]
      */

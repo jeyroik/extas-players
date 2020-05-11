@@ -14,7 +14,7 @@ class PluginInstallPlayers extends PluginInstallDefault
 {
     protected string $selfSection = 'players';
     protected string $selfName = 'player';
-    protected string $selfRepositoryClass = IPlayerRerpository::class;
+    protected string $selfRepositoryClass = IPlayerRepository::class;
     protected string $selfUID = Player::FIELD__NAME;
     protected string $selfItemClass = Player::class;
 }
