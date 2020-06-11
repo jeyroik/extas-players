@@ -2,7 +2,7 @@
   "name": "extas/players",
   "package_classes": [
     {
-      "interface": "extas\\interfaces\\players\\IPlayerRepository",
+      "interface": "playerRepository",
       "class": "extas\\components\\players\\PlayerRepository"
     }
   ],
@@ -54,8 +54,20 @@
   ],
   "plugins": [
     {
-      "class": "extas\\components\\plugins\\PluginInstallPlayers",
-      "stage": "extas.install"
+      "class": "extas\\components\\plugins\\install\\InstallPlayers",
+      "stage": "extas.install.section.players"
+    },
+    {
+      "class": "extas\\components\\plugins\\uninstall\\UninstallPlayers",
+      "stage": "extas.uninstall.section.players"
+    }
+  ],
+  "extensions": [
+    {
+      "class": "extas\\components\\extensions\\ExtensionRepositoryGet",
+      "interface": "extas\\interfaces\\extensions\\IExtensionRepositoryGet",
+      "subject": "*",
+      "methods": ["playerRepository"]
     }
   ]
 }

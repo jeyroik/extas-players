@@ -1,15 +1,15 @@
 <?php
 namespace extas\components\players;
 
-use extas\components\SystemContainer;
 use extas\interfaces\players\IHasPlayer;
 use extas\interfaces\players\IPlayer;
-use extas\interfaces\players\IPlayerRepository;
+use extas\interfaces\repositories\IRepository;
 
 /**
  * Trait THasPlayer
  *
  * @property $config
+ * @method IRepository playerRepository()
  *
  * @package extas\components\players
  * @author jeyroik <jeyroik@gmail.com>
@@ -29,12 +29,7 @@ trait THasPlayer
      */
     public function getPlayer(): ?IPlayer
     {
-        /**
-         * @var $repo IPlayerRepository
-         */
-        $repo = SystemContainer::getItem(IPlayerRepository::class);
-
-        return $repo->one([IPlayer::FIELD__NAME => $this->getPlayerName()]);
+        return $this->playerRepository()->one([IPlayer::FIELD__NAME => $this->getPlayerName()]);
     }
 
     /**

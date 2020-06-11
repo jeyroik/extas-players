@@ -1,20 +1,19 @@
 <?php
-namespace extas\components\plugins;
+namespace extas\components\plugins\uninstall;
 
-use extas\interfaces\players\IPlayerRepository;
 use extas\components\players\Player;
 
 /**
- * Class PluginInstallPlayers
+ * Class UninstallPlayers
  *
- * @package extas\components\plugins
+ * @package extas\components\plugins\uninstall
  * @author jeyroik@gmail.com
  */
-class PluginInstallPlayers extends PluginInstallDefault
+class UninstallPlayers extends UninstallSection
 {
     protected string $selfSection = 'players';
     protected string $selfName = 'player';
-    protected string $selfRepositoryClass = IPlayerRepository::class;
+    protected string $selfRepositoryClass = 'playerRepository';
     protected string $selfUID = Player::FIELD__NAME;
     protected string $selfItemClass = Player::class;
 }
