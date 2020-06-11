@@ -1,15 +1,17 @@
 <?php
+namespace tests\players;
 
-use PHPUnit\Framework\TestCase;
+use extas\interfaces\players\IHasPlayer;
+
+use extas\components\repositories\TSnuffRepository;
 use extas\components\players\Player;
 use extas\components\samples\parameters\SampleParameter;
-use extas\interfaces\players\IHasPlayer;
 use extas\components\players\THasPlayer;
-use extas\components\SystemContainer;
-use extas\interfaces\players\IPlayerRepository;
 use extas\components\players\PlayerRepository;
-use extas\interfaces\repositories\IRepository;
 use extas\components\Item;
+
+use Dotenv\Dotenv;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class PlayerTest
@@ -18,25 +20,21 @@ use extas\components\Item;
  */
 class PlayerTest extends TestCase
 {
-    protected ?IRepository $playerRepo = null;
+    use TSnuffRepository;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
+        $env = Dotenv::create(getcwd() . '/tests/');
         $env->load();
-
-        $this->playerRepo = new PlayerRepository();
-
-        SystemContainer::addItem(
-            IPlayerRepository::class,
-            PlayerRepository::class
-        );
+        $this->registerSnuffRepos([
+            'playerRepository' => PlayerRepository::class
+        ]);
     }
 
     public function tearDown(): void
     {
-        $this->playerRepo->delete([Player::FIELD__NAME => 'test']);
+        $this->unregisterSnuffRepos();
     }
 
     public function testAliases()
@@ -142,7 +140,7 @@ class PlayerTest extends TestCase
                 return '';
             }
         };
-        $this->playerRepo->create(new Player([
+        $this->createWithSnuffRepo('playerRepository', new Player([
             Player::FIELD__NAME => 'test',
             Player::FIELD__ALIASES => ['test']
         ]));
