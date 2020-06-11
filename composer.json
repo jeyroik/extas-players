@@ -2,7 +2,7 @@
   "name": "jeyroik/extas-players",
   "description": "Extas players package",
   "require": {
-    "jeyroik/extas-samples": "2.*",
+    "jeyroik/extas-samples": "3.*",
     "jeyroik/extas-foundation": "5.*",
     "jeyroik/extas-repositories-get": "0.*"
   },
