@@ -1,12 +1,10 @@
 <?php
 namespace extas\components\players;
 
+use extas\components\samples\parameters\THasSampleParameters;
 use extas\components\THasAliases;
 use extas\components\THasDescription;
-use extas\components\THasIdentities;
-use extas\components\THasItemsData;
 use extas\components\THasName;
-use extas\components\THasSettings;
 use extas\interfaces\players\IPlayer;
 use extas\components\Item;
 
@@ -21,9 +19,7 @@ class Player extends Item implements IPlayer
     use THasName;
     use THasDescription;
     use THasAliases;
-    use THasItemsData;
-    use THasIdentities;
-    use THasSettings;
+    use THasSampleParameters;
 
     /**
      * @return string

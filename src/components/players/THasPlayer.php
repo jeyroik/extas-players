@@ -9,7 +9,7 @@ use extas\interfaces\repositories\IRepository;
  * Trait THasPlayer
  *
  * @property $config
- * @method IRepository playerRepository()
+ * @method IRepository players()
  *
  * @package extas\components\players
  * @author jeyroik <jeyroik@gmail.com>
@@ -29,7 +29,7 @@ trait THasPlayer
      */
     public function getPlayer(): ?IPlayer
     {
-        return $this->playerRepository()->one([IPlayer::FIELD__NAME => $this->getPlayerName()]);
+        return $this->players()->one([IPlayer::FIELD__NAME => $this->getPlayerName()]);
     }
 
     /**

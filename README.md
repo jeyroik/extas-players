@@ -9,30 +9,40 @@
 
 # Описание
 
-Модель пользователя.
-
-# Установка
-
-`composer require jeyroik/extas-players:2.*`
+Пакет предоставляет механизм идентификации пользователя.
 
 # Использование
 
-## Термины
+Пакет поддерживает различный драйверы идентификации. 
 
-- `identity` - используется для хранения данных для идентификации пользователя.
-- `setting` - используется для хранения настроек для пользователя.
-- `alias` - используется для добавления пользователя в группу (для этого просто добавляется алиас группы).
-
-## Создание пользователя
+Допустим, получен токен, необходимо по нему определить пользователя:
 
 ```php
-use extas\components\players\Player;
-
 /**
- * @var $playerRepo extas\interfaces\players\IPlayerRepository
+ * @var string $token
  */
-$player = new Player([
-    Player::FIELD__NAME => 'jeyroik'
+$identityFactory = new \extas\components\players\identities\PlayerIdentityFactory();
+$identity = $identityFactory->getIdentity('token', ['token' => $token]);
+
+if ($identity) {
+    return $identity->getPlayer();
+}
+```
+
+Идентификация по логину и паролю:
+
+```php
+/**
+ * @var string $login
+ * @var string $password
+ */
+$identityFactory = new \extas\components\players\identities\PlayerIdentityFactory();
+$identity = $identityFactory->getIdentity('login_password', [
+    'login' => $login,
+    'password' => $password
 ]);
-$playerRepo->create($player);
+
+if ($identity) {
+    return $identity->getPlayer();
+}
 ```
