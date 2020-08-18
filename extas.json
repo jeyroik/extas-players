@@ -6,68 +6,20 @@
       "class": "extas\\components\\players\\PlayerRepository"
     }
   ],
-  "players": [
+  "repositories": [
     {
-      "name" : "public",
-      "description": "public access",
-      "aliases": [],
-      "identities": [
-        {"name": "public", "value": "group"}
-      ],
-      "settings": [
-        {"name": "token", "value": "@uuid6"}
-      ]
-    },
-    {
-      "name": "authorized",
-      "description": "Авторизованные пользователи",
-      "aliases": ["public"],
-      "identities": [
-        {"name": "authorized", "value": "group"}
-      ],
-      "settings": [
-        {"name": "token", "value": "@uuid6" }
-      ]
-    },
-    {
-      "name" : "admin",
-      "description" : "Администратор",
-      "aliases" : ["authorized"],
-      "identities" : [
-        {"name" : "admin", "value" : "group"}
-      ],
-      "settings" : [
-        {"name" : "token", "value" : "@uuid6"}
-      ]
-    },
-    {
-      "name" : "extas@jeyroik.gmail",
-      "description" : "extas base player with admin access",
-      "aliases" : ["authorized", "admin"],
-      "identities" : [
-        {"name" : "extas@jeyroik.gmail", "value" : "@sha1(admin)"}
-      ],
-      "settings" : [
-        {"name" : "token",  "value" : "@uuid6"}
-      ]
+      "name": "players",
+      "scope": "extas",
+      "pk": "name",
+      "class": "extas\\components\\players\\Player",
+      "aliases": ["players"]
     }
   ],
-  "plugins": [
+  "plugins_install": [
     {
-      "class": "extas\\components\\plugins\\install\\InstallPlayers",
-      "stage": "extas.install.section.players"
-    },
-    {
-      "class": "extas\\components\\plugins\\uninstall\\UninstallPlayers",
-      "stage": "extas.uninstall.section.players"
-    }
-  ],
-  "extensions": [
-    {
-      "class": "extas\\components\\extensions\\ExtensionRepositoryGet",
-      "interface": "extas\\interfaces\\extensions\\IExtensionRepositoryGet",
-      "subject": "*",
-      "methods": ["playerRepository"]
+      "repository": "players",
+      "name": "player",
+      "section": "players"
     }
   ]
 }
