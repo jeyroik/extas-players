@@ -63,16 +63,16 @@ class PlayerIdentityFactory extends Item implements IPlayerIdentityFactory
     }
 
     /**
-     * @param string $driver
+     * @param string $driverName
      * @return IPlayerIdentityDriver
      * @throws MissedOrUnknown
      */
-    protected function getDriver(string $driver): IPlayerIdentityDriver
+    protected function getDriver(string $driverName): IPlayerIdentityDriver
     {
-        $driver = $this->identityDrivers()->one([IPlayerIdentityDriver::FIELD__NAME => $driver]);
+        $driver = $this->identityDrivers()->one([IPlayerIdentityDriver::FIELD__NAME => $driverName]);
 
         if (!$driver) {
-            throw new MissedOrUnknown('driver "' . $driver . '"');
+            throw new MissedOrUnknown('driver "' . $driverName . '"');
         }
 
         return $driver;
