@@ -1,15 +1,11 @@
 <?php
 namespace tests\players;
 
-use extas\components\players\identities\PlayerIdentity;
-use extas\components\players\identities\PlayerIdentityDriver;
-use extas\components\players\PlayerGroup;
 use extas\components\players\PlayerSample;
 use extas\components\repositories\TSnuffRepositoryDynamic;
 use extas\components\THasMagicClass;
 use extas\interfaces\players\IHasPlayer;
 use extas\components\players\Player;
-use extas\components\samples\parameters\SampleParameter;
 use extas\components\players\THasPlayer;
 use extas\components\Item;
 
@@ -64,12 +60,6 @@ class PlayerTest extends TestCase
 
         $hasPlayer->setPlayerName('new');
         $this->assertEquals('new', $hasPlayer->getPlayerName());
-    }
-
-    public function testGroup()
-    {
-        $group = new PlayerGroup();
-        $this->assertEquals('extas.player.group', $group->__subject());
     }
 
     public function testSample()

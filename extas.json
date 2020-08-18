@@ -7,7 +7,7 @@
     }
   ],
   "export": {
-    "players_samples": [
+    "players_groups": [
       {
         "name": "public",
         "title": "Public",
@@ -25,30 +25,6 @@
         "title": "Admin",
         "description": "Admin",
         "aliases": ["admin", "authorized", "public", "guest"]
-      }
-    ],
-    "players": [
-      {
-        "name": "extas@jeyroik.ru",
-        "title": "Jey Roik",
-        "description": "extas base player with admin access",
-        "aliases": ["admin", "extas@jeyroik.ru"],
-        "parameters": {
-          "token": {
-            "name": "token",
-            "value": "@uuid6"
-          }
-        }
-      }
-    ],
-    "players_identities": [
-      {
-        "name": "@sha1(admin)",
-        "player": "extas@jeyroik.ru",
-        "class": "extas\\components\\players\\identities\\IdentityPassword",
-        "parameters": {
-          ""
-        }
       }
     ]
   },
