@@ -87,12 +87,22 @@ class PlayerIdentityTest extends TestCase
         $factory->createIdentity($this->player, 'test-driver', $this->identityData);
     }
 
-    public function testUnknownDriver()
+    public function testFactoryUnknownDriver()
     {
         $factory = new PlayerIdentityFactory();
 
         $this->expectExceptionMessage('Missed or unknown driver "test-driver"');
         $factory->createIdentity($this->player, 'test-driver', $this->identityData);
+    }
+
+    public function testIdentityUnknownDriver()
+    {
+        $identity = new PlayerIdentity([
+            PlayerIdentity::FIELD__DRIVER => 'test-driver'
+        ]);
+
+        $this->expectExceptionMessage('Missed or unknown driver "test-driver"');
+        $identity->getDriver();
     }
 
     protected function createDriver()
