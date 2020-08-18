@@ -6,28 +6,6 @@
       "class": "extas\\components\\players\\PlayerRepository"
     }
   ],
-  "export": {
-    "players_groups": [
-      {
-        "name": "public",
-        "title": "Public",
-        "description": "Public",
-        "aliases": ["public", "guest"]
-      },
-      {
-        "name": "authorized",
-        "title": "Authorized",
-        "description": "Authorized users",
-        "aliases": ["authorized", "public", "guest"]
-      },
-      {
-        "name": "admin",
-        "title": "Admin",
-        "description": "Admin",
-        "aliases": ["admin", "authorized", "public", "guest"]
-      }
-    ]
-  },
   "repositories": [
     {
       "name": "players",
