@@ -2,7 +2,6 @@
 namespace extas\interfaces\players\identities;
 
 use extas\interfaces\IHasName;
-use extas\interfaces\players\IHasPlayer;
 use extas\interfaces\samples\parameters\IHasSampleParameters;
 
 /**
@@ -11,7 +10,7 @@ use extas\interfaces\samples\parameters\IHasSampleParameters;
  * @package extas\interfaces\players
  * @author jeyroik <jeyroik@gmail.com>
  */
-interface IPlayerIdentity extends IHasName, IHasSampleParameters, IHasPlayer, IHasPlayerIdentityDriver
+interface IPlayerIdentity extends IHasName, IHasSampleParameters
 {
     public const SUBJECT = 'extas.player.identity';
 }

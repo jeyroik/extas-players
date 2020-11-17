@@ -10,7 +10,7 @@ use extas\interfaces\repositories\IRepository;
  * Trait THasPlayerIdentityDriver
  *
  * @property array $config
- * @method IRepository identityDrivers()
+ * @method IRepository playersIdentitiesDrivers()
  *
  * @package extas\components\players\identities
  * @author jeyroik <jeyroik@gmail.com>
@@ -31,7 +31,7 @@ trait THasPlayerIdentityDriver
      */
     public function getDriver(): IPlayerIdentityDriver
     {
-        $driver = $this->identityDrivers()->one([IPlayerIdentityDriver::FIELD__NAME => $this->getDriverName()]);
+        $driver = $this->playersIdentitiesDrivers()->one([IPlayerIdentityDriver::FIELD__NAME => $this->getDriverName()]);
 
         if ($driver) {
             return $driver;

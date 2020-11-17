@@ -1,8 +1,15 @@
+# 3.0.0
+
+- Из `IPlayerIdentity` удалены интерфейсы `IHasPlayer`, `IHasPlayerIdentityDriver`.
+- Добавлена сущность `IPlayerToIdentityMap`.
+  - Таким образом, появилась возможность привязать несколько профилей к одной identity.
+- В `extas.json` прописаны репозитории для identities, identities drivers.
+
 # 2.0.0
 
-- Параметры identities/settings у пользователя удалены.
-- Identities выделены в сущность.
-- Settings заменены на стандартные `sample parameters`.
+- Параметры `identities/settings` у пользователя удалены.
+- `Identities` выделены в сущность.
+- `Settings` заменены на стандартные `sample parameters`.
 - Добавлена поддержка различных драйверов для идентификации.
 - Группы выделены в пакет.
 

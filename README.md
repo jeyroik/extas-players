@@ -18,23 +18,30 @@
 Допустим, получен токен, необходимо по нему определить пользователя:
 
 ```php
+use extas\interfaces\repositories\IRepository;
+use extas\interfaces\players\identities\IPlayerToIdentityMap as IMap;
 /**
  * @var string $token
+ * @var IRepository $playersIdentitiesMaps
  */
 $identityFactory = new \extas\components\players\identities\PlayerIdentityFactory();
 $identity = $identityFactory->getIdentity('token', ['token' => $token]);
 
 if ($identity) {
-    return $identity->getPlayer();
+    $maps = $playersIdentitiesMaps->all([IMap::FIELD__PLAYER_IDENTITY => $identity->getName()]); 
+    return array_shift($maps)->getPlayer();
 }
 ```
 
 Идентификация по логину и паролю:
 
 ```php
+use extas\interfaces\repositories\IRepository;
+use extas\interfaces\players\identities\IPlayerToIdentityMap as IMap;
 /**
  * @var string $login
  * @var string $password
+ * @var IRepository $playersIdentitiesMaps
  */
 $identityFactory = new \extas\components\players\identities\PlayerIdentityFactory();
 $identity = $identityFactory->getIdentity('login_password', [
@@ -43,6 +50,7 @@ $identity = $identityFactory->getIdentity('login_password', [
 ]);
 
 if ($identity) {
-    return $identity->getPlayer();
+    $maps = $playersIdentitiesMaps->all([IMap::FIELD__PLAYER_IDENTITY => $identity->getName()]); 
+    return array_shift($maps)->getPlayer();
 }
 ```
