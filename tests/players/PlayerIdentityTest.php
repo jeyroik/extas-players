@@ -59,6 +59,9 @@ class PlayerIdentityTest extends TestCase
             'password' => 'test'
         ]);
 
+        /**
+         * @var IPlayerToIdentityMap[] $maps
+         */
         $maps = $this->getMagicClass('playersIdentitiesMaps')->all([
             IPlayerToIdentityMap::FIELD__PLAYER_IDENTITY => $identity->getName()
         ]);
@@ -68,6 +71,7 @@ class PlayerIdentityTest extends TestCase
         $map = array_shift($maps);
 
         $this->assertEquals($this->player->getName(), $map->getPlayerName());
+        $this->assertEquals($identity->getName(), $map->getPlayerIdentityName());
 
         $identity = $factory->getIdentity('test-driver', $this->identityData);
         $maps = $this->getMagicClass('playersIdentitiesMaps')->all([
