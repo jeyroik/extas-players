@@ -4,10 +4,12 @@ namespace tests\players;
 use extas\components\players\identities\PlayerIdentity;
 use extas\components\players\identities\PlayerIdentityDriver;
 use extas\components\players\identities\PlayerIdentityFactory;
+use extas\components\players\identities\PlayerToIdentityMap;
 use extas\components\repositories\TSnuffRepositoryDynamic;
 use extas\components\THasMagicClass;
 use extas\components\players\Player;
 use Dotenv\Dotenv;
+use extas\interfaces\players\identities\IPlayerToIdentityMap;
 use extas\interfaces\players\IPlayer;
 use PHPUnit\Framework\TestCase;
 use tests\players\misc\IdentityDriver;
@@ -36,7 +38,8 @@ class PlayerIdentityTest extends TestCase
         $this->createSnuffDynamicRepositories([
             ['players', 'name', Player::class],
             ['playersIdentities', 'name', PlayerIdentity::class],
-            ['identityDrivers', 'name', PlayerIdentityDriver::class],
+            ['playersIdentitiesMaps', 'name', PlayerToIdentityMap::class],
+            ['playersIdentitiesDrivers', 'name', PlayerIdentityDriver::class],
         ]);
         $this->player = new Player([Player::FIELD__NAME => 'test']);
     }
@@ -56,19 +59,35 @@ class PlayerIdentityTest extends TestCase
             'password' => 'test'
         ]);
 
-        $this->assertEquals($this->player->getName(), $identity->getPlayerName());
+        /**
+         * @var IPlayerToIdentityMap[] $maps
+         */
+        $maps = $this->getMagicClass('playersIdentitiesMaps')->all([
+            IPlayerToIdentityMap::FIELD__PLAYER_IDENTITY => $identity->getName()
+        ]);
 
-        $this->assertEquals('test-driver', $identity->getDriverName());
-        $this->assertEquals('test-driver', $identity->getDriver()->getName());
+        $this->assertCount(1, $maps);
 
-        $identity->setDriverName('test');
-        $this->assertEquals('test', $identity->getDriverName());
+        $map = array_shift($maps);
 
-        $identity->setDriverName('test-driver');
+        $this->assertEquals($this->player->getName(), $map->getPlayerName());
+        $this->assertEquals($identity, $map->getPlayerIdentity());
+        $this->assertEquals($identity->getName(), $map->getPlayerIdentityName());
+
+        $map->setPlayerIdentity('unknown');
+
+        $this->assertNull($map->getPlayerIdentity());
 
         $identity = $factory->getIdentity('test-driver', $this->identityData);
+        $maps = $this->getMagicClass('playersIdentitiesMaps')->all([
+            IPlayerToIdentityMap::FIELD__PLAYER_IDENTITY => $identity->getName()
+        ]);
 
-        $this->assertEquals($this->player->getName(), $identity->getPlayerName());
+        $this->assertCount(1, $maps);
+
+        $map = array_shift($maps);
+
+        $this->assertEquals($this->player->getName(), $map->getPlayerName());
 
         $factory->deleteIdentity('test-driver', $this->identityData);
 
@@ -95,19 +114,9 @@ class PlayerIdentityTest extends TestCase
         $factory->createIdentity($this->player, 'test-driver', $this->identityData);
     }
 
-    public function testIdentityUnknownDriver()
-    {
-        $identity = new PlayerIdentity([
-            PlayerIdentity::FIELD__DRIVER => 'test-driver'
-        ]);
-
-        $this->expectExceptionMessage('Missed or unknown driver "test-driver"');
-        $identity->getDriver();
-    }
-
     protected function createDriver()
     {
-        $this->getMagicClass('identityDrivers')->create(new PlayerIdentityDriver([
+        $this->getMagicClass('playersIdentitiesDrivers')->create(new PlayerIdentityDriver([
             PlayerIdentityDriver::FIELD__NAME => 'test-driver',
             PlayerIdentityDriver::FIELD__CLASS => IdentityDriver::class
         ]));

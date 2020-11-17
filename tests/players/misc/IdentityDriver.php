@@ -5,9 +5,10 @@ use extas\components\exceptions\AlreadyExist;
 use extas\components\exceptions\MissedOrUnknown;
 use extas\components\Item;
 use extas\components\players\identities\PlayerIdentity;
+use extas\components\players\identities\PlayerToIdentityMap;
 use extas\interfaces\players\identities\IPlayerIdentity;
 use extas\interfaces\players\identities\IPlayerIdentityDriverDispatcher;
-use extas\interfaces\players\IHasPlayer;
+use extas\interfaces\players\identities\IPlayerToIdentityMap;
 use extas\interfaces\players\IPlayer;
 use extas\interfaces\repositories\IRepository;
 
@@ -15,6 +16,7 @@ use extas\interfaces\repositories\IRepository;
  * Class IdentityDriver
  *
  * @method IRepository playersIdentities()
+ * @method IRepository playersIdentitiesMaps()
  *
  * @package tests\players\misc
  * @author jeyroik <jeyroik@gmail.com>
@@ -33,12 +35,7 @@ class IdentityDriver extends Item implements IPlayerIdentityDriverDispatcher
     {
         $name = $this->buildName($args);
 
-        $identity = new PlayerIdentity([
-            PlayerIdentity::FIELD__NAME => $name,
-            PlayerIdentity::FIELD__PLAYER_NAME => $player->getName(),
-            PlayerIdentity::FIELD__DRIVER => static::DRIVER__NAME,
-            PlayerIdentity::FIELD__PARAMETERS => []
-        ]);
+        $identity = new PlayerIdentity([PlayerIdentity::FIELD__NAME => $name]);
 
         $one = $this->playersIdentities()->one([PlayerIdentity::FIELD__NAME => $name]);
 
@@ -47,6 +44,10 @@ class IdentityDriver extends Item implements IPlayerIdentityDriverDispatcher
         }
 
         $this->playersIdentities()->create($identity);
+        $this->playersIdentitiesMaps()->create(new PlayerToIdentityMap([
+            PlayerToIdentityMap::FIELD__PLAYER_IDENTITY => $identity->getName(),
+            PlayerToIdentityMap::FIELD__PLAYER_NAME => $player->getName()
+        ]));
 
         return $identity;
     }
@@ -79,6 +80,9 @@ class IdentityDriver extends Item implements IPlayerIdentityDriverDispatcher
     {
         $one = $this->resolve($args);
         $this->playersIdentities()->delete([], $one);
+        $this->playersIdentitiesMaps()->delete([
+            IPlayerToIdentityMap::FIELD__PLAYER_IDENTITY => $one->getName()
+        ]);
 
         return true;
     }

@@ -13,7 +13,7 @@ use extas\interfaces\repositories\IRepository;
 /**
  * Class PlayerIdentityFactory
  *
- * @method IRepository identityDrivers()
+ * @method IRepository playersIdentitiesDrivers()
  *
  * @package extas\components\players\identities
  * @author jeyroik <jeyroik@gmail.com>
@@ -69,7 +69,7 @@ class PlayerIdentityFactory extends Item implements IPlayerIdentityFactory
      */
     protected function getDriver(string $driverName): IPlayerIdentityDriver
     {
-        $driver = $this->identityDrivers()->one([IPlayerIdentityDriver::FIELD__NAME => $driverName]);
+        $driver = $this->playersIdentitiesDrivers()->one([IPlayerIdentityDriver::FIELD__NAME => $driverName]);
 
         if (!$driver) {
             throw new MissedOrUnknown('driver "' . $driverName . '"');
