@@ -32,7 +32,7 @@
       "name": "players_identities_drivers",
       "scope": "extas",
       "pk": "name",
-      "class": "extas\\components\\players\\identities\\PlayerToIdentityDriver",
+      "class": "extas\\components\\players\\identities\\PlayerIdentityDriver",
       "aliases": ["players_identities_drivers", "playersIdentitiesDrivers"]
     }
   ],
