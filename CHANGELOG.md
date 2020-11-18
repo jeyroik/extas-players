@@ -1,3 +1,7 @@
+# 3.0.1
+
+- Исправлена установка `extas.json`.
+
 # 3.0.0
 
 - Из `IPlayerIdentity` удалены интерфейсы `IHasPlayer`, `IHasPlayerIdentityDriver`.
