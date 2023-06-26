@@ -1,3 +1,9 @@
+# 4.0.0
+
+- Обновлено до `extas=foundation` `v6`.
+- Полностью переделаны `IPlayer`, `IPlayerIdentity`.
+- Добавлен `IPlayerIdentityProvider`.
+
 # 3.0.1
 
 - Исправлена установка `extas.json`.

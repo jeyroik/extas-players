@@ -2,8 +2,11 @@
 namespace extas\components\players\identities;
 
 use extas\components\Item;
-use extas\components\samples\parameters\THasSampleParameters;
+use extas\components\players\THasPlayer;
+use extas\components\THasDescription;
 use extas\components\THasName;
+use extas\components\THasStringId;
+use extas\components\THasValue;
 use extas\interfaces\players\identities\IPlayerIdentity;
 
 /**
@@ -15,7 +18,10 @@ use extas\interfaces\players\identities\IPlayerIdentity;
 class PlayerIdentity extends Item implements IPlayerIdentity
 {
     use THasName;
-    use THasSampleParameters;
+    use THasDescription;
+    use THasStringId;
+    use THasValue;
+    use THasPlayer;
 
     /**
      * @return string
