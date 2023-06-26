@@ -1,18 +1,14 @@
 <?php
 namespace tests\players;
 
-use extas\components\players\identities\PlayerIdentity;
-use extas\components\players\identities\PlayerIdentityDriver;
-use extas\components\players\identities\PlayerIdentityFactory;
-use extas\components\players\identities\PlayerToIdentityMap;
-use extas\components\repositories\TSnuffRepositoryDynamic;
-use extas\components\THasMagicClass;
-use extas\components\players\Player;
-use Dotenv\Dotenv;
-use extas\interfaces\players\identities\IPlayerToIdentityMap;
+use extas\components\players\identities\PlayerIdentityProvider;
+use extas\components\players\identities\PlayerIdentityService;
+use extas\components\players\PlayerService;
+use extas\components\repositories\RepoItem;
+use extas\components\repositories\TSnuffRepository;
+use extas\interfaces\players\identities\IPlayerIdentity;
 use extas\interfaces\players\IPlayer;
 use PHPUnit\Framework\TestCase;
-use tests\players\misc\IdentityDriver;
 
 /**
  * Class PlayerIdentityTest
@@ -21,104 +17,77 @@ use tests\players\misc\IdentityDriver;
  */
 class PlayerIdentityTest extends TestCase
 {
-    use TSnuffRepositoryDynamic;
-    use THasMagicClass;
-
-    protected IPlayer $player;
-    protected array $identityData = [
-        'login' => 'test',
-        'password' => 'test'
-    ];
+    use TSnuffRepository;
 
     protected function setUp(): void
     {
-        parent::setUp();
-        $env = Dotenv::create(getcwd() . '/tests/');
-        $env->load();
-        $this->createSnuffDynamicRepositories([
-            ['players', 'name', Player::class],
-            ['playersIdentities', 'name', PlayerIdentity::class],
-            ['playersIdentitiesMaps', 'name', PlayerToIdentityMap::class],
-            ['playersIdentitiesDrivers', 'name', PlayerIdentityDriver::class],
+        putenv("EXTAS__CONTAINER_PATH_STORAGE_LOCK=vendor/jeyroik/extas-foundation/resources/container.dist.json");
+        $this->buildBasicRepos();
+        $this->buildRepo(__DIR__ . '/../../vendor/jeyroik/extas-foundation/resources/', [
+            'players' => [
+                "namespace" => "tests\\tmp",
+                "item_class" => "extas\\components\\players\\Player",
+                "pk" => "id",
+                "aliases" => ["players"],
+                "hooks" => [],
+                "code" => [
+                    'create-before' => '\\' . RepoItem::class . '::setId($item);'
+                                      .'\\' . RepoItem::class . '::throwIfExist($this, $item, [\'name\']);'
+                                      .'$item = (new \\' . PlayerService::class . '())->generateToken($item);'
+                ]
+            ]
         ]);
-        $this->player = new Player([Player::FIELD__NAME => 'test']);
+        $this->buildRepo(__DIR__ . '/../../vendor/jeyroik/extas-foundation/resources/', [
+            'players_identities' => [
+                "namespace" => "tests\\tmp",
+                "item_class" => "extas\\components\\players\\identities\\PlayerIdentity",
+                "pk" => "id",
+                "aliases" => ["playersIdentities"],
+                "hooks" => [],
+                "code" => [
+                    'create-before' => '\\' . RepoItem::class . '::setId($item);'
+                                      .'\\' . RepoItem::class . '::throwIfExist($this, $item, [\'name\',\'value\']);'
+                ]
+            ]
+        ]);
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
-        $this->deleteSnuffDynamicRepositories();
+        $this->dropDatabase(__DIR__);
+        $this->deleteRepo('plugins');
+        $this->deleteRepo('extensions');
+        $this->deleteRepo('players');
+        $this->deleteRepo('players_identities');
     }
 
     public function testCreateIdentity()
     {
-        $this->createDriver();
+        $provider = new PlayerIdentityProvider([
+            PlayerIdentityProvider::FIELD__AUTHORIZATION_URL => 'auth',
+            PlayerIdentityProvider::FIELD__ACCESS_TOKEN_URL => 'token',
+            PlayerIdentityProvider::FIELD__USER_DETAILS_URL => 'info',
+            PlayerIdentityProvider::FIELD__SCOPES => [],
 
-        $factory = new PlayerIdentityFactory();
-        $identity = $factory->createIdentity($this->player, 'test-driver', [
-            'login' => 'test',
-            'password' => 'test'
+            PlayerIdentityProvider::FIELD__NAME => 'test name',
+            PlayerIdentityProvider::FIELD__TITLE => 'test title',
+            PlayerIdentityProvider::FIELD__DESCRIPTION => 'test description'
         ]);
+
+        $service = new PlayerIdentityService();
+        $identity = $service->createIdentity($provider, 'test', 'test@test');
 
         /**
-         * @var IPlayerToIdentityMap[] $maps
+         * @var IPlayer $player
          */
-        $maps = $this->getMagicClass('playersIdentitiesMaps')->all([
-            IPlayerToIdentityMap::FIELD__PLAYER_IDENTITY => $identity->getName()
-        ]);
+        $player = $service->players()->one([IPlayer::FIELD__NAME => 'test']);
+        $this->assertInstanceOf(IPlayer::class, $player);
+        $this->assertTrue($player->buildParams()->hasOne('token'));
 
-        $this->assertCount(1, $maps);
+        $this->assertInstanceOf(IPlayerIdentity::class, $identity);
+        $this->assertEquals('test name', $identity->getName());
 
-        $map = array_shift($maps);
-
-        $this->assertEquals($this->player->getName(), $map->getPlayerName());
-        $this->assertEquals($identity, $map->getPlayerIdentity());
-        $this->assertEquals($identity->getName(), $map->getPlayerIdentityName());
-
-        $map->setPlayerIdentity('unknown');
-
-        $this->assertNull($map->getPlayerIdentity());
-
-        $identity = $factory->getIdentity('test-driver', $this->identityData);
-        $maps = $this->getMagicClass('playersIdentitiesMaps')->all([
-            IPlayerToIdentityMap::FIELD__PLAYER_IDENTITY => $identity->getName()
-        ]);
-
-        $this->assertCount(1, $maps);
-
-        $map = array_shift($maps);
-
-        $this->assertEquals($this->player->getName(), $map->getPlayerName());
-
-        $factory->deleteIdentity('test-driver', $this->identityData);
-
-        $this->expectExceptionMessage('Missed or unknown identity for "test"');
-        $factory->getIdentity('test-driver', $this->identityData);
-    }
-
-    public function testIdentityAlreadyExists()
-    {
-        $this->createDriver();
-
-        $factory = new PlayerIdentityFactory();
-        $factory->createIdentity($this->player, 'test-driver', $this->identityData);
-
-        $this->expectExceptionMessage('Identity already exists');
-        $factory->createIdentity($this->player, 'test-driver', $this->identityData);
-    }
-
-    public function testFactoryUnknownDriver()
-    {
-        $factory = new PlayerIdentityFactory();
-
-        $this->expectExceptionMessage('Missed or unknown driver "test-driver"');
-        $factory->createIdentity($this->player, 'test-driver', $this->identityData);
-    }
-
-    protected function createDriver()
-    {
-        $this->getMagicClass('playersIdentitiesDrivers')->create(new PlayerIdentityDriver([
-            PlayerIdentityDriver::FIELD__NAME => 'test-driver',
-            PlayerIdentityDriver::FIELD__CLASS => IdentityDriver::class
-        ]));
+        $identity2 = $service->createIdentity($provider, 'test', 'test@test');
+        $this->assertEquals($identity->getId(), $identity2->getId());
     }
 }

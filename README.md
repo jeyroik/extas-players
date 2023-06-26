@@ -1,56 +1,42 @@
 ![tests](https://github.com/jeyroik/extas-players/workflows/PHP%20Composer/badge.svg?branch=master&event=push)
 ![codecov.io](https://codecov.io/gh/jeyroik/extas-players/coverage.svg?branch=master)
-<a href="https://github.com/phpstan/phpstan"><img src="https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat" alt="PHPStan Enabled"></a>
 <a href="https://codeclimate.com/github/jeyroik/extas-players/maintainability"><img src="https://api.codeclimate.com/v1/badges/08920d1c20f45b540a2c/maintainability" /></a>
-<a href="https://github.com/jeyroik/extas-installer/" title="Extas Installer v3"><img alt="Extas Installer v3" src="https://img.shields.io/badge/installer-v3-green"></a>
-[![Latest Stable Version](https://poser.pugx.org/jeyroik/extas-players/v)](//packagist.org/packages/jeyroik/extas-q-crawlers)
-[![Total Downloads](https://poser.pugx.org/jeyroik/extas-players/downloads)](//packagist.org/packages/jeyroik/extas-q-crawlers)
-[![Dependents](https://poser.pugx.org/jeyroik/extas-players/dependents)](//packagist.org/packages/jeyroik/extas-q-crawlers)
+[![Latest Stable Version](https://poser.pugx.org/jeyroik/extas-players/v)](//packagist.org/packages/jeyroik/extas-players)
+[![Total Downloads](https://poser.pugx.org/jeyroik/extas-players/downloads)](//packagist.org/packages/jeyroik/extas-players)
+[![Dependents](https://poser.pugx.org/jeyroik/extas-players/dependents)](//packagist.org/packages/jeyroik/extas-players)
 
 # Описание
 
-Пакет предоставляет механизм идентификации пользователя.
+Пакет предоставляет механизм для управления пользователями.
 
 # Использование
 
-Пакет поддерживает различный драйверы идентификации. 
+Пакет состоит из
 
-Допустим, получен токен, необходимо по нему определить пользователя:
+- `IPlayer` - Игрок, он же пользователь.
+- `IPlayerIdentity` - Личность или учётная запись игрока. У одного игрока может быть несколько учётных записей.
+- `IPlayerIdentityProvider` - Поставщик учётных записей.
 
-```php
-use extas\interfaces\repositories\IRepository;
-use extas\interfaces\players\identities\IPlayerToIdentityMap as IMap;
-/**
- * @var string $token
- * @var IRepository $playersIdentitiesMaps
- */
-$identityFactory = new \extas\components\players\identities\PlayerIdentityFactory();
-$identity = $identityFactory->getIdentity('token', ['token' => $token]);
+Механизм работает следующим образом:
 
-if ($identity) {
-    $maps = $playersIdentitiesMaps->all([IMap::FIELD__PLAYER_IDENTITY => $identity->getName()]); 
-    return array_shift($maps)->getPlayer();
-}
-```
-
-Идентификация по логину и паролю:
+1. На вход поступает имя поставщика и текущее значение для учётной записи.
+2. Если для данной пары "поставщик+значение учётной записи" есть Учётная запись, значит и пользователь существует.
+3. Если учётной записи нет, то она создаётся.
+3.1. Если в момент создания учётной записи есть залогиненный пользователь, то учётная запись привязывается к нему.
 
 ```php
-use extas\interfaces\repositories\IRepository;
-use extas\interfaces\players\identities\IPlayerToIdentityMap as IMap;
-/**
- * @var string $login
- * @var string $password
- * @var IRepository $playersIdentitiesMaps
- */
-$identityFactory = new \extas\components\players\identities\PlayerIdentityFactory();
-$identity = $identityFactory->getIdentity('login_password', [
-    'login' => $login,
-    'password' => $password
-]);
+use extas\components\players\PlayerService;
 
-if ($identity) {
-    $maps = $playersIdentitiesMaps->all([IMap::FIELD__PLAYER_IDENTITY => $identity->getName()]); 
-    return array_shift($maps)->getPlayer();
-}
+$currentPlayer = PlayerService::getCurrentPlayer();
+
+$identity = //get user identity form outside service
+$playerName = $currentPlayer ? $currentPlayer->getName() : $identity;
+
+$player = null;
+$playerIdentity = $playerIdentityService->getIdentityByValue($this->client->getId(), $identity);
+if (!$playerIdentity) {
+        $playerIdentity = $playerIdentityService->createIdentity($this->client->getProvider(), $playerName, $identity) ;
+}      
+$player = $currentPlayer ?: $playerIdentity->getPlayer();
+$playerService->login($player);
 ```

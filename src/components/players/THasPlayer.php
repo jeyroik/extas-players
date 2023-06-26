@@ -1,7 +1,7 @@
 <?php
 namespace extas\components\players;
 
-use extas\interfaces\players\IHasPlayer;
+use extas\interfaces\players\IHavePlayer;
 use extas\interfaces\players\IPlayer;
 use extas\interfaces\repositories\IRepository;
 
@@ -21,7 +21,7 @@ trait THasPlayer
      */
     public function getPlayerName(): string
     {
-        return $this->config[IHasPlayer::FIELD__PLAYER_NAME] ?? '';
+        return $this->config[IHavePlayer::FIELD__PLAYER_NAME] ?? '';
     }
 
     /**
@@ -36,9 +36,9 @@ trait THasPlayer
      * @param string $playerName
      * @return $this
      */
-    public function setPlayerName(string $playerName)
+    public function setPlayerName(string $playerName): static
     {
-        $this->config[IHasPlayer::FIELD__PLAYER_NAME] = $playerName;
+        $this->config[IHavePlayer::FIELD__PLAYER_NAME] = $playerName;
 
         return $this;
     }
